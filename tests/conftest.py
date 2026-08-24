@@ -38,9 +38,10 @@ def mock_submodule(name):
         if full_name not in sys.modules:
             mock = MagicMock()
             sys.modules[full_name] = mock
-            if i > 1:
-                parent_name = ".".join(parts[: i - 1])
-                setattr(sys.modules[parent_name], parts[i - 1], mock)
+        if i > 1:
+            parent_name = ".".join(parts[: i - 1])
+            if parent_name in sys.modules:
+                setattr(sys.modules[parent_name], parts[i - 1], sys.modules[full_name])
 
 
 @dataclass(frozen=True, kw_only=True)
@@ -238,7 +239,6 @@ const_mock.CONF_PORT = "port"
 
 ha_mocks = [
     "homeassistant.core",
-    "homeassistant.config_entries",
     "homeassistant.helpers",
     "homeassistant.helpers.aiohttp_client",
     "homeassistant.helpers.config_validation",
@@ -249,6 +249,8 @@ ha_mocks = [
     "homeassistant.helpers.service_info.ssdp",
     "homeassistant.helpers.service_info.dhcp",
     "homeassistant.helpers.service_info.zeroconf",
+    "homeassistant.helpers.storage",
+    "homeassistant.helpers.selector",
     "homeassistant.helpers.typing",
     "homeassistant.components.diagnostics",
     "homeassistant.components.repairs",
@@ -257,6 +259,35 @@ ha_mocks = [
 
 for mock_name in ha_mocks:
     mock_submodule(mock_name)
+
+# Ensure config_entries module has proper Mock classes
+config_entries_mock = MagicMock()
+config_entries_mock.ConfigFlow = MockConfigFlow
+config_entries_mock.OptionsFlow = MockOptionsFlow
+config_entries_mock.ConfigEntry = MagicMock
+config_entries_mock.ConfigFlowResult = dict[str, Any]
+sys.modules["homeassistant.config_entries"] = config_entries_mock
+if "homeassistant" in sys.modules:
+    sys.modules["homeassistant"].config_entries = config_entries_mock
+
+class MockStore:
+    def __init__(self, hass, version, key):
+        self.hass = hass
+        self.version = version
+        self.key = key
+    async def async_load(self):
+        return None
+    async def async_save(self, data):
+        pass
+    def __class_getitem__(cls, _):
+        return cls
+
+if "homeassistant.helpers.storage" in sys.modules:
+    sys.modules["homeassistant.helpers.storage"].Store = MockStore
+
+# Ensure aiohttp_client helpers return a non-coroutine session mock
+if "homeassistant.helpers.aiohttp_client" in sys.modules:
+    sys.modules["homeassistant.helpers.aiohttp_client"].async_get_clientsession = MagicMock(return_value=MagicMock())
 
 # Fix device_registry mocks to behave logically
 dr_mock = MagicMock()

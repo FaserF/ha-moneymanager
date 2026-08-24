@@ -1,6 +1,6 @@
 """Test the MoneyManager API Client and JSON/JS parser."""
 
-from unittest.mock import AsyncMock, patch
+from unittest.mock import AsyncMock, MagicMock, patch
 
 import pytest
 
@@ -39,14 +39,19 @@ async def test_api_client_request():
     client = MoneyManagerApiClient(host="192.168.1.50", port=8888)
     assert client.base_url == "http://192.168.1.50:8888"
 
-    mock_resp = AsyncMock()
+    mock_resp = MagicMock()
     mock_resp.status = 200
     mock_resp.text = AsyncMock(return_value="{initData: {mbid:'1'}}")
 
-    mock_session = AsyncMock()
-    mock_session.request.return_value.__aenter__.return_value = mock_resp
+    mock_cm = MagicMock()
+    mock_cm.__aenter__ = AsyncMock(return_value=mock_resp)
+    mock_cm.__aexit__ = AsyncMock(return_value=None)
 
-    with patch.object(client, "_get_session", return_value=mock_session):
+    mock_session = MagicMock()
+    mock_session.request = MagicMock(return_value=mock_cm)
+    mock_session.closed = False
+
+    with patch.object(client, "_get_session", AsyncMock(return_value=mock_session)):
         data = await client.request("moneyBook/getInitData")
         assert data["initData"]["mbid"] == "1"
 
@@ -56,11 +61,19 @@ async def test_api_client_auth_error():
     """Test authentication error handling."""
     client = MoneyManagerApiClient(host="192.168.1.50", port=8888)
 
-    mock_resp = AsyncMock()
+    mock_resp = MagicMock()
     mock_resp.status = 401
-    mock_session = AsyncMock()
-    mock_session.request.return_value.__aenter__.return_value = mock_resp
+    mock_resp.text = AsyncMock(return_value="")
 
-    with patch.object(client, "_get_session", return_value=mock_session):
+    mock_cm = MagicMock()
+    mock_cm.__aenter__ = AsyncMock(return_value=mock_resp)
+    mock_cm.__aexit__ = AsyncMock(return_value=None)
+
+    mock_session = MagicMock()
+    mock_session.request = MagicMock(return_value=mock_cm)
+    mock_session.closed = False
+
+    with patch.object(client, "_get_session", AsyncMock(return_value=mock_session)):
         with pytest.raises(MoneyManagerAuthError):
             await client.request("moneyBook/getInitData")
+

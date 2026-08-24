@@ -100,47 +100,47 @@ A secure and reliable Home Assistant integration for **MoneyManager (Android App
 ### Sensors
 - `sensor.moneymanager_last_sync`: Timestamp of the last successful synchronization (includes `server_connected` attribute).
 - **Assets & Balances**:
-  - `sensor.moneymanager_total_gross_assets` (Gesamtvermögen)
-  - `sensor.moneymanager_net_assets` (Nettovermögen)
-  - `sensor.moneymanager_total_debt` (Gesamtschulden)
-- **Current Month (Aktueller Monat)**:
-  - `sensor.moneymanager_monthly_income` (Monatliche Einnahmen)
-  - `sensor.moneymanager_monthly_expense` (Monatliche Ausgaben)
-  - `sensor.moneymanager_monthly_balance` (Monatlicher Saldo)
-  - `sensor.moneymanager_monthly_savings_rate` (Monatliche Sparquote in %)
-- **Previous Month (Vormonat)**:
-  - `sensor.moneymanager_prev_month_income` (Einnahmen Vormonat)
-  - `sensor.moneymanager_prev_month_expense` (Ausgaben Vormonat)
-  - `sensor.moneymanager_prev_month_balance` (Saldo Vormonat)
-  - `sensor.moneymanager_prev_month_savings_rate` (Sparquote Vormonat in %)
-- **Current Year (Aktuelles Jahr)**:
-  - `sensor.moneymanager_yearly_income` (Jährliche Einnahmen)
-  - `sensor.moneymanager_yearly_expense` (Jährliche Ausgaben)
-  - `sensor.moneymanager_yearly_balance` (Jährlicher Saldo)
-  - `sensor.moneymanager_yearly_savings_rate` (Jährliche Sparquote in %)
-- **Previous Year (Vorjahr)**:
-  - `sensor.moneymanager_prev_year_income` (Einnahmen Vorjahr)
-  - `sensor.moneymanager_prev_year_expense` (Ausgaben Vorjahr)
-  - `sensor.moneymanager_prev_year_balance` (Saldo Vorjahr)
-  - `sensor.moneymanager_prev_year_savings_rate` (Sparquote Vorjahr in %)
+  - `sensor.moneymanager_total_gross_assets`: Total Gross Assets
+  - `sensor.moneymanager_net_assets`: Net Assets
+  - `sensor.moneymanager_total_debt`: Total Liabilities / Debt
+- **Current Month**:
+  - `sensor.moneymanager_monthly_income`: Monthly Income
+  - `sensor.moneymanager_monthly_expense`: Monthly Expenses
+  - `sensor.moneymanager_monthly_balance`: Monthly Net Balance
+  - `sensor.moneymanager_monthly_savings_rate`: Monthly Savings Rate (%)
+- **Previous Month**:
+  - `sensor.moneymanager_prev_month_income`: Previous Month Income
+  - `sensor.moneymanager_prev_month_expense`: Previous Month Expenses
+  - `sensor.moneymanager_prev_month_balance`: Previous Month Balance
+  - `sensor.moneymanager_prev_month_savings_rate`: Previous Month Savings Rate (%)
+- **Current Year**:
+  - `sensor.moneymanager_yearly_income`: Current Year Income
+  - `sensor.moneymanager_yearly_expense`: Current Year Expenses
+  - `sensor.moneymanager_yearly_balance`: Current Year Balance
+  - `sensor.moneymanager_yearly_savings_rate`: Current Year Savings Rate (%)
+- **Previous Year**:
+  - `sensor.moneymanager_prev_year_income`: Previous Year Income
+  - `sensor.moneymanager_prev_year_expense`: Previous Year Expenses
+  - `sensor.moneymanager_prev_year_balance`: Previous Year Balance
+  - `sensor.moneymanager_prev_year_savings_rate`: Previous Year Savings Rate (%)
 - **Payment & Account Breakdowns**:
-  - `sensor.moneymanager_cash_expense` (Monatliche Barausgaben)
-  - `sensor.moneymanager_card_expense` (Monatliche Kartenausgaben)
-  - Dynamic account & card sensors (`sensor.moneymanager_giro`, `sensor.moneymanager_barzahlung`, `sensor.moneymanager_paypal`, `sensor.moneymanager_kreditkarte`, etc.)
+  - `sensor.moneymanager_cash_expense`: Monthly Cash Expenses
+  - `sensor.moneymanager_card_expense`: Monthly Card / Electronic Expenses
+  - Dynamic account & card sensors (e.g. `sensor.moneymanager_checking`, `sensor.moneymanager_cash`, `sensor.moneymanager_paypal`, `sensor.moneymanager_credit_card`)
 - **Book & Transactions**:
-  - `sensor.moneymanager_recent_transactions` (Letzte Buchungen mit Kategorie, Betrag, Konto, Notiz)
-  - `sensor.moneymanager_account_book` (Haushaltsbuch-Info)
+  - `sensor.moneymanager_recent_transactions`: Recent transactions with category, amount, account, and note
+  - `sensor.moneymanager_account_book`: Account book metadata and category inventory
 
 ### Button
 - `button.moneymanager_update_data_now`: Manually triggers synchronization with the smartphone.
 
 ### Services
 - `moneymanager.update_data`: Service call to trigger immediate data refresh from the smartphone.
-- `moneymanager.create_entry`: Create a new transaction in MoneyManager (*Ausgabe, Einnahme oder Umbuchung*). Parameters:
+- `moneymanager.create_entry`: Create a new transaction in MoneyManager (*Expense, Income, or Transfer*). Parameters:
   - `amount`: Number (e.g. `12.50`)
   - `entry_type`: `Expense`, `Income`, or `Transfer`
-  - `category`: Category name (e.g. `Lebensmittel`, `Gehalt`, `Freizeit`)
-  - `account`: Account/card name (e.g. `Giro`, `Barzahlung`, `PayPal`, `Kreditkarte`)
+  - `category`: Category name (e.g. `Groceries`, `Salary`, `Leisure`)
+  - `account`: Account/card name (e.g. `Checking`, `Cash`, `PayPal`, `Credit Card`)
   - `date`: Optional date in `YYYY-MM-DD` format (defaults to current date)
   - `note`: Optional payee or short summary
   - `detail`: Optional memo / description

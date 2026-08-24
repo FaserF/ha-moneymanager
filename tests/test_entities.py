@@ -1,10 +1,9 @@
 """Test MoneyManager entities."""
 
-from unittest.mock import MagicMock
+from unittest.mock import AsyncMock, MagicMock
 
 import pytest
 
-from custom_components.moneymanager.binary_sensor import MoneyManagerServerBinarySensor
 from custom_components.moneymanager.button import MoneyManagerUpdateDataButton
 from custom_components.moneymanager.sensor import (
     MoneyManagerAccountSensor,
@@ -21,6 +20,7 @@ def mock_coordinator():
     coord = MagicMock()
     coord.server_available = True
     coord.last_sync = None
+    coord.async_request_refresh = AsyncMock()
     coord.data = {
         "dashboard_data": {
             "assetSummary": {
@@ -52,6 +52,7 @@ def mock_entry():
     entry = MagicMock()
     entry.entry_id = "test_entry_123"
     entry.data = {"host": "192.168.1.50", "port": 8888}
+    entry.options = {}
     return entry
 
 
@@ -83,17 +84,10 @@ def test_sensors(mock_coordinator, mock_entry):
     assert card_sensor.native_value == -4.0
 
 
-def test_binary_sensor(mock_coordinator, mock_entry):
-    """Test binary sensor connection state."""
-    bin_sensor = MoneyManagerServerBinarySensor(mock_coordinator, mock_entry)
-    assert bin_sensor.is_on is True
-    mock_coordinator.server_available = False
-    assert bin_sensor.is_on is False
-
-
 @pytest.mark.asyncio
 async def test_button(mock_coordinator, mock_entry):
     """Test update data now button."""
     btn = MoneyManagerUpdateDataButton(mock_coordinator, mock_entry)
     await btn.async_press()
     mock_coordinator.async_request_refresh.assert_called_once()
+
