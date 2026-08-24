@@ -4,7 +4,7 @@ import json
 import os
 import re
 import subprocess
-from datetime import datetime
+from datetime import UTC, datetime
 
 
 def run_git(args):
@@ -139,7 +139,11 @@ def main():
 
     if script_path:
         try:
-            repo_url = f"https://github.com/{repo}" if repo else f"https://github.com/{owner}/{repo_name}"
+            repo_url = (
+                f"https://github.com/{repo}"
+                if repo
+                else f"https://github.com/{owner}/{repo_name}"
+            )
             cl_args = [
                 "python",
                 script_path,
@@ -263,8 +267,7 @@ def main():
         f"> **Affected areas:** {impact_str}\n"
     )
 
-    from datetime import timezone
-    released_at = datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M") + " UTC"
+    released_at = datetime.now(UTC).strftime("%Y-%m-%d %H:%M") + " UTC"
     body_parts = [
         f"# {friendly_name} {version}  {channel_badge}",
         "",
