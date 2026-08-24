@@ -90,4 +90,3 @@ async def test_button(mock_coordinator, mock_entry):
     btn = MoneyManagerUpdateDataButton(mock_coordinator, mock_entry)
     await btn.async_press()
     mock_coordinator.async_request_refresh.assert_called_once()
-

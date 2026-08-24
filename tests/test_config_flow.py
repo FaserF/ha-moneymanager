@@ -65,4 +65,3 @@ async def test_config_flow_cannot_connect(hass):
         result = await flow.async_step_user(user_input)
         assert result["type"] == "FORM"
         assert result["errors"] == {"base": "cannot_connect"}
-

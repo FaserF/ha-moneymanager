@@ -76,4 +76,3 @@ async def test_api_client_auth_error():
     with patch.object(client, "_get_session", AsyncMock(return_value=mock_session)):
         with pytest.raises(MoneyManagerAuthError):
             await client.request("moneyBook/getInitData")
-

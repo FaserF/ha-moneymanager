@@ -270,24 +270,31 @@ sys.modules["homeassistant.config_entries"] = config_entries_mock
 if "homeassistant" in sys.modules:
     sys.modules["homeassistant"].config_entries = config_entries_mock
 
+
 class MockStore:
     def __init__(self, hass, version, key):
         self.hass = hass
         self.version = version
         self.key = key
+
     async def async_load(self):
         return None
+
     async def async_save(self, data):
         pass
+
     def __class_getitem__(cls, _):
         return cls
+
 
 if "homeassistant.helpers.storage" in sys.modules:
     sys.modules["homeassistant.helpers.storage"].Store = MockStore
 
 # Ensure aiohttp_client helpers return a non-coroutine session mock
 if "homeassistant.helpers.aiohttp_client" in sys.modules:
-    sys.modules["homeassistant.helpers.aiohttp_client"].async_get_clientsession = MagicMock(return_value=MagicMock())
+    sys.modules[
+        "homeassistant.helpers.aiohttp_client"
+    ].async_get_clientsession = MagicMock(return_value=MagicMock())
 
 # Fix device_registry mocks to behave logically
 dr_mock = MagicMock()
