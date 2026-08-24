@@ -118,20 +118,18 @@ class MoneyManagerBaseSensor(
         self.entry = entry
         host = entry.options.get(CONF_HOST, entry.data.get(CONF_HOST, "unknown"))
         port = entry.options.get(CONF_PORT, entry.data.get(CONF_PORT, 8888))
-        use_ssl = entry.options.get(
-            CONF_USE_SSL, entry.data.get(CONF_USE_SSL, False)
-        )
+        use_ssl = entry.options.get(CONF_USE_SSL, entry.data.get(CONF_USE_SSL, False))
         proto = "https" if use_ssl else "http"
         config_url = f"{proto}://{host}:{port}/"
 
         book_name = (
-            coordinator.data.get("init_data", {})
-            .get("initData", {})
-            .get("mbName")
+            coordinator.data.get("init_data", {}).get("initData", {}).get("mbName")
             if coordinator.data
             else None
         )
-        device_name = f"MoneyManager ({book_name})" if book_name else f"MoneyManager ({host})"
+        device_name = (
+            f"MoneyManager ({book_name})" if book_name else f"MoneyManager ({host})"
+        )
 
         self._attr_device_info = DeviceInfo(
             identifiers={(DOMAIN, entry.entry_id)},
@@ -396,6 +394,7 @@ class MoneyManagerMonthlySavingsRateSensor(MoneyManagerBaseSensor):
 # Previous Month Sensors (Disabled by default)
 # -------------------------------------------------------------
 
+
 class MoneyManagerPrevMonthIncomeSensor(MoneyManagerBaseSensor):
     """Sensor for Previous Month Total Income."""
 
@@ -510,6 +509,7 @@ class MoneyManagerPrevMonthSavingsRateSensor(MoneyManagerBaseSensor):
 # Current Year Sensors
 # -------------------------------------------------------------
 
+
 class MoneyManagerYearlyIncomeSensor(MoneyManagerBaseSensor):
     """Sensor for Current Year Total Income."""
 
@@ -536,7 +536,9 @@ class MoneyManagerYearlyIncomeSensor(MoneyManagerBaseSensor):
         attrs["start_date"] = summary.get("startDate")
         attrs["end_date"] = summary.get("endDate")
         attrs["categories"] = data.get("summary_current_year", {}).get("income", [])
-        attrs["monthly_breakdown"] = data.get("summary_current_year", {}).get("monthly_breakdown", [])
+        attrs["monthly_breakdown"] = data.get("summary_current_year", {}).get(
+            "monthly_breakdown", []
+        )
         return attrs
 
 
@@ -566,7 +568,9 @@ class MoneyManagerYearlyExpenseSensor(MoneyManagerBaseSensor):
         attrs["start_date"] = summary.get("startDate")
         attrs["end_date"] = summary.get("endDate")
         attrs["categories"] = data.get("summary_current_year", {}).get("outcome", [])
-        attrs["monthly_breakdown"] = data.get("summary_current_year", {}).get("monthly_breakdown", [])
+        attrs["monthly_breakdown"] = data.get("summary_current_year", {}).get(
+            "monthly_breakdown", []
+        )
         return attrs
 
 
@@ -592,7 +596,9 @@ class MoneyManagerYearlyBalanceSensor(MoneyManagerBaseSensor):
     def extra_state_attributes(self) -> dict[str, Any]:
         attrs = super().extra_state_attributes
         data = self.coordinator.data or {}
-        attrs["monthly_breakdown"] = data.get("summary_current_year", {}).get("monthly_breakdown", [])
+        attrs["monthly_breakdown"] = data.get("summary_current_year", {}).get(
+            "monthly_breakdown", []
+        )
         return attrs
 
 
@@ -628,13 +634,16 @@ class MoneyManagerYearlySavingsRateSensor(MoneyManagerBaseSensor):
     def extra_state_attributes(self) -> dict[str, Any]:
         attrs = super().extra_state_attributes
         data = self.coordinator.data or {}
-        attrs["monthly_breakdown"] = data.get("summary_current_year", {}).get("monthly_breakdown", [])
+        attrs["monthly_breakdown"] = data.get("summary_current_year", {}).get(
+            "monthly_breakdown", []
+        )
         return attrs
 
 
 # -------------------------------------------------------------
 # Previous Year Sensors (Disabled by default)
 # -------------------------------------------------------------
+
 
 class MoneyManagerPrevYearIncomeSensor(MoneyManagerBaseSensor):
     """Sensor for Previous Year Total Income."""
@@ -663,7 +672,9 @@ class MoneyManagerPrevYearIncomeSensor(MoneyManagerBaseSensor):
         attrs["start_date"] = summary.get("startDate")
         attrs["end_date"] = summary.get("endDate")
         attrs["categories"] = data.get("summary_prev_year", {}).get("income", [])
-        attrs["monthly_breakdown"] = data.get("summary_prev_year", {}).get("monthly_breakdown", [])
+        attrs["monthly_breakdown"] = data.get("summary_prev_year", {}).get(
+            "monthly_breakdown", []
+        )
         return attrs
 
 
@@ -694,7 +705,9 @@ class MoneyManagerPrevYearExpenseSensor(MoneyManagerBaseSensor):
         attrs["start_date"] = summary.get("startDate")
         attrs["end_date"] = summary.get("endDate")
         attrs["categories"] = data.get("summary_prev_year", {}).get("outcome", [])
-        attrs["monthly_breakdown"] = data.get("summary_prev_year", {}).get("monthly_breakdown", [])
+        attrs["monthly_breakdown"] = data.get("summary_prev_year", {}).get(
+            "monthly_breakdown", []
+        )
         return attrs
 
 
@@ -721,7 +734,9 @@ class MoneyManagerPrevYearBalanceSensor(MoneyManagerBaseSensor):
     def extra_state_attributes(self) -> dict[str, Any]:
         attrs = super().extra_state_attributes
         data = self.coordinator.data or {}
-        attrs["monthly_breakdown"] = data.get("summary_prev_year", {}).get("monthly_breakdown", [])
+        attrs["monthly_breakdown"] = data.get("summary_prev_year", {}).get(
+            "monthly_breakdown", []
+        )
         return attrs
 
 
@@ -758,7 +773,9 @@ class MoneyManagerPrevYearSavingsRateSensor(MoneyManagerBaseSensor):
     def extra_state_attributes(self) -> dict[str, Any]:
         attrs = super().extra_state_attributes
         data = self.coordinator.data or {}
-        attrs["monthly_breakdown"] = data.get("summary_prev_year", {}).get("monthly_breakdown", [])
+        attrs["monthly_breakdown"] = data.get("summary_prev_year", {}).get(
+            "monthly_breakdown", []
+        )
         return attrs
 
 

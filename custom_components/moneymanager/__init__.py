@@ -82,7 +82,13 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
         detail = str(data.get("detail", ""))
         to_account = data.get("to_account")
 
-        _LOGGER.info("Creating MoneyManager entry: %s %.2f in %s (%s)", entry_type, amount, category, account)
+        _LOGGER.info(
+            "Creating MoneyManager entry: %s %.2f in %s (%s)",
+            entry_type,
+            amount,
+            category,
+            account,
+        )
         success = await coordinator.client.create_entry(
             date=date_str,
             amount=amount,
