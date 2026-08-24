@@ -67,15 +67,14 @@ class MoneyManagerConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
             try:
                 # Test connection and fetch initData
                 init_data = await client.request("moneyBook/getInitData", timeout=5)
-                mb_name = (
-                    init_data.get("initData", {}).get("mbName")
-                    or "MoneyManager"
-                )
+                mb_name = init_data.get("initData", {}).get("mbName") or "MoneyManager"
 
                 # Generate a globally unique fingerprint from internal database UUIDs (categories & accounts)
                 # MoneyManager generates persistent UUIDs for custom categories & accounts (e.g. '9CA5B6E1-7111-4203-8C7D-921D058A3672')
                 raw_ids: list[str] = []
-                for cat in init_data.get("category_0", []) + init_data.get("category_1", []):
+                for cat in init_data.get("category_0", []) + init_data.get(
+                    "category_1", []
+                ):
                     if mcid := cat.get("mcid"):
                         raw_ids.append(str(mcid))
                 for asset in init_data.get("assetNames", []):
@@ -84,7 +83,10 @@ class MoneyManagerConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
 
                 if raw_ids:
                     import hashlib
-                    fingerprint = hashlib.sha256("_".join(sorted(raw_ids)).encode("utf-8")).hexdigest()[:12]
+
+                    fingerprint = hashlib.sha256(
+                        "_".join(sorted(raw_ids)).encode("utf-8")
+                    ).hexdigest()[:12]
                     unique_id = f"moneymanager_{fingerprint}"
                 else:
                     unique_id = f"moneymanager_{host}_{port}"
@@ -92,7 +94,11 @@ class MoneyManagerConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
                 await self.async_set_unique_id(unique_id)
                 self._abort_if_unique_id_configured()
 
-                entry_title = f"MoneyManager ({mb_name})" if mb_name != "MoneyManager" else f"MoneyManager ({host})"
+                entry_title = (
+                    f"MoneyManager ({mb_name})"
+                    if mb_name != "MoneyManager"
+                    else f"MoneyManager ({host})"
+                )
 
                 return self.async_create_entry(
                     title=entry_title,
@@ -107,9 +113,15 @@ class MoneyManagerConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
                 errors["base"] = "unknown"
 
         current_host = user_input.get(CONF_HOST, "") if user_input else ""
-        current_port = user_input.get(CONF_PORT, DEFAULT_PORT) if user_input else DEFAULT_PORT
+        current_port = (
+            user_input.get(CONF_PORT, DEFAULT_PORT) if user_input else DEFAULT_PORT
+        )
         current_passcode = user_input.get(CONF_PASSCODE, "") if user_input else ""
-        current_ssl = user_input.get(CONF_USE_SSL, DEFAULT_USE_SSL) if user_input else DEFAULT_USE_SSL
+        current_ssl = (
+            user_input.get(CONF_USE_SSL, DEFAULT_USE_SSL)
+            if user_input
+            else DEFAULT_USE_SSL
+        )
 
         schema = vol.Schema(
             {

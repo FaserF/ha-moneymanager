@@ -152,7 +152,10 @@ class MoneyManagerApiClient:
 
                     # Parse {success:true, conid:'...'}
                     match = re.search(r"conid:\s*['\"]([^'\"]*)['\"]", text)
-                    is_success = "success:true" in text.lower() or "success: true" in text.lower()
+                    is_success = (
+                        "success:true" in text.lower()
+                        or "success: true" in text.lower()
+                    )
                     if is_success and match and match.group(1):
                         self._session_id = match.group(1)
                         return True
@@ -262,13 +265,17 @@ class MoneyManagerApiClient:
         """Test if server is reachable and responds correctly."""
         # Try direct request first; if authentication is required, log in
         try:
-            data = await self.request("moneyBook/getInitData", timeout=5, retry_auth=False)
+            data = await self.request(
+                "moneyBook/getInitData", timeout=5, retry_auth=False
+            )
             if "initData" in data or "multiBooks" in data or "assetNames" in data:
                 return True
         except MoneyManagerAuthError:
             if self._passcode:
                 await self.async_login(timeout=5)
-                data = await self.request("moneyBook/getInitData", timeout=5, retry_auth=False)
+                data = await self.request(
+                    "moneyBook/getInitData", timeout=5, retry_auth=False
+                )
                 if "initData" in data or "multiBooks" in data or "assetNames" in data:
                     return True
             raise
@@ -331,7 +338,9 @@ class MoneyManagerApiClient:
                             params={"startDate": s, "endDate": e, "mbid": mbid},
                         )
                     except Exception as err:
-                        _LOGGER.debug("Error fetching summary for %s to %s: %s", s, e, err)
+                        _LOGGER.debug(
+                            "Error fetching summary for %s to %s: %s", s, e, err
+                        )
                         return {}
 
                 (
@@ -373,18 +382,26 @@ class MoneyManagerApiClient:
                 cur_year_res = await asyncio.gather(*cur_year_months_tasks)
                 prev_year_res = await asyncio.gather(*prev_year_months_tasks)
 
-                def _build_month_list(results: list[dict[str, Any]], year_val: int) -> list[dict[str, Any]]:
+                def _build_month_list(
+                    results: list[dict[str, Any]], year_val: int
+                ) -> list[dict[str, Any]]:
                     mlist = []
                     for idx, res in enumerate(results, start=1):
                         sd = res.get("summary", {})
                         inc = _safe_float(sd.get("income")) or 0.0
                         out = _safe_float(sd.get("outcome")) or 0.0
-                        net = _safe_float(sd.get("sum")) if sd.get("sum") is not None else round(inc - out, 2)
+                        net = (
+                            _safe_float(sd.get("sum"))
+                            if sd.get("sum") is not None
+                            else round(inc - out, 2)
+                        )
                         rate = round(((inc - out) / inc) * 100, 2) if inc > 0 else 0.0
                         mlist.append(
                             {
                                 "month": f"{year_val}-{idx:02d}",
-                                "month_name": datetime.date(year_val, idx, 1).strftime("%B"),
+                                "month_name": datetime.date(year_val, idx, 1).strftime(
+                                    "%B"
+                                ),
                                 "start_date": sd.get("startDate"),
                                 "end_date": sd.get("endDate"),
                                 "income": inc,
@@ -499,7 +516,10 @@ class MoneyManagerApiClient:
         mcid = ""
         mb_category = category
         for c in cat_list:
-            if c.get("mcname", "").lower() == category.lower() or c.get("mcid") == category:
+            if (
+                c.get("mcname", "").lower() == category.lower()
+                or c.get("mcid") == category
+            ):
                 mcid = str(c.get("mcid", ""))
                 mb_category = str(c.get("mcname", category))
                 break
@@ -512,7 +532,10 @@ class MoneyManagerApiClient:
         asset_id = ""
         pay_type = account
         for a in asset_list:
-            if a.get("assetName", "").lower() == account.lower() or a.get("assetId") == account:
+            if (
+                a.get("assetName", "").lower() == account.lower()
+                or a.get("assetId") == account
+            ):
                 asset_id = str(a.get("assetId", ""))
                 pay_type = str(a.get("assetName", account))
                 break
@@ -524,7 +547,10 @@ class MoneyManagerApiClient:
         to_asset_id = ""
         if to_account:
             for a in asset_list:
-                if a.get("assetName", "").lower() == to_account.lower() or a.get("assetId") == to_account:
+                if (
+                    a.get("assetName", "").lower() == to_account.lower()
+                    or a.get("assetId") == to_account
+                ):
                     to_asset_id = str(a.get("assetId", ""))
                     break
 
@@ -561,7 +587,9 @@ class MoneyManagerApiClient:
                 cookies=cookies,
             ) as resp:
                 if resp.status != 200:
-                    raise MoneyManagerConnectionError(f"HTTP error {resp.status} creating transaction")
+                    raise MoneyManagerConnectionError(
+                        f"HTTP error {resp.status} creating transaction"
+                    )
                 text = await resp.text(encoding="utf-8", errors="replace")
                 return "success:true" in text.lower() or "success: true" in text.lower()
 
@@ -585,7 +613,9 @@ class MoneyManagerApiClient:
                 cookies=cookies,
             ) as resp:
                 if resp.status != 200:
-                    raise MoneyManagerConnectionError(f"HTTP error {resp.status} deleting transaction")
+                    raise MoneyManagerConnectionError(
+                        f"HTTP error {resp.status} deleting transaction"
+                    )
                 text = await resp.text(encoding="utf-8", errors="replace")
                 return "success:true" in text.lower() or "success: true" in text.lower()
 

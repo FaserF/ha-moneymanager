@@ -43,20 +43,18 @@ class MoneyManagerUpdateDataButton(
         self.entry = entry
         host = entry.options.get(CONF_HOST, entry.data.get(CONF_HOST, "unknown"))
         port = entry.options.get(CONF_PORT, entry.data.get(CONF_PORT, 8888))
-        use_ssl = entry.options.get(
-            CONF_USE_SSL, entry.data.get(CONF_USE_SSL, False)
-        )
+        use_ssl = entry.options.get(CONF_USE_SSL, entry.data.get(CONF_USE_SSL, False))
         proto = "https" if use_ssl else "http"
         config_url = f"{proto}://{host}:{port}/"
 
         book_name = (
-            coordinator.data.get("init_data", {})
-            .get("initData", {})
-            .get("mbName")
+            coordinator.data.get("init_data", {}).get("initData", {}).get("mbName")
             if coordinator.data
             else None
         )
-        device_name = f"MoneyManager ({book_name})" if book_name else f"MoneyManager ({host})"
+        device_name = (
+            f"MoneyManager ({book_name})" if book_name else f"MoneyManager ({host})"
+        )
 
         self._attr_unique_id = f"{entry.entry_id}_update_data_now"
         self._attr_device_info = DeviceInfo(
