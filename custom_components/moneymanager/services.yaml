@@ -1,0 +1,78 @@
+update_data:
+  name: Update Data Now
+  description: Manually trigger synchronization of financial data from the MoneyManager PC Manager server.
+
+create_entry:
+  name: Create Transaction Entry
+  description: Create a new expense, income, or transfer transaction in MoneyManager (only when server is running).
+  fields:
+    amount:
+      name: Amount
+      description: Transaction amount in EUR (e.g. 15.50).
+      required: true
+      selector:
+        number:
+          min: 0.01
+          max: 1000000
+          step: 0.01
+          unit_of_measurement: EUR
+    entry_type:
+      name: Entry Type
+      description: Type of transaction (Expense, Income, Transfer).
+      required: true
+      default: Expense
+      selector:
+        select:
+          options:
+            - Expense
+            - Income
+            - Transfer
+    category:
+      name: Category
+      description: Category name (e.g. Lebensmittel, Gehalt, Freizeit).
+      required: true
+      example: Lebensmittel
+      selector:
+        text:
+    account:
+      name: Account / Payment Method
+      description: Account or card used (e.g. Giro, Barzahlung, PayPal, Kreditkarte).
+      required: true
+      example: Giro
+      selector:
+        text:
+    date:
+      name: Date
+      description: Transaction date in YYYY-MM-DD format (leave empty for today).
+      required: false
+      selector:
+        date:
+    note:
+      name: Note / Content
+      description: Brief note or payee name (e.g. Supermarket).
+      required: false
+      selector:
+        text:
+    detail:
+      name: Detailed Description / Memo
+      description: Additional transaction details or memo.
+      required: false
+      selector:
+        text:
+    to_account:
+      name: Target Account (Transfer only)
+      description: Destination account when transferring funds.
+      required: false
+      selector:
+        text:
+
+delete_entry:
+  name: Delete Transaction Entry
+  description: Delete an existing transaction by its MoneyManager transaction ID.
+  fields:
+    entry_id:
+      name: Transaction ID
+      description: The ID of the transaction to delete (from recent transactions list).
+      required: true
+      selector:
+        text:

@@ -1,0 +1,17 @@
+{
+  "domain": "moneymanager",
+  "name": "MoneyManager",
+  "codeowners": [
+    "@FaserF"
+  ],
+  "config_flow": true,
+  "documentation": "https://github.com/FaserF/ha-moneymanager",
+  "integration_type": "hub",
+  "iot_class": "local_polling",
+  "issue_tracker": "https://github.com/FaserF/ha-moneymanager/issues",
+  "loggers": [
+    "custom_components.moneymanager"
+  ],
+  "requirements": [],
+  "version": "1.0.0"
+}

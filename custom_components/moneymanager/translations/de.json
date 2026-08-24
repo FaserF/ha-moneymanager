@@ -1,0 +1,124 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "MoneyManager PC Manager Verbindung",
+        "description": "HINWEIS: Die 'PC Manager' Funktion erfordert die Vollversion (Pro / Abo) von MoneyManager.\n\nDu MUSST die MoneyManager App auf deinem Smartphone öffnen, auf 'Mehr' > 'PC Manager' gehen und dort auf 'Start' drücken.\n\nDaten können NUR abgerufen werden, solange der PC Manager auf dem Smartphone aktiv läuft.",
+        "data": {
+          "host": "IP-Adresse oder Hostname (wie in der App angezeigt)",
+          "port": "Port",
+          "passcode": "Passcode (optional)",
+          "use_ssl": "SSL verwenden"
+        }
+      }
+    },
+    "error": {
+      "cannot_connect": "Verbindung zum MoneyManager PC Manager Server fehlgeschlagen. Bitte stelle sicher, dass 'Start' in der App aktiv läuft.",
+      "invalid_auth": "Authentifizierung fehlgeschlagen: Passcode ist ungültig oder erforderlich.",
+      "unknown": "Unerwarteter Fehler aufgetreten."
+    },
+    "abort": {
+      "already_configured": "Dieses MoneyManager Gerät ist bereits konfiguriert."
+    }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "title": "MoneyManager Optionen",
+        "description": "HINWEIS: Bitte stelle sicher, dass die App auf deinem Smartphone unter 'Mehr' > 'PC Manager' geöffnet ist und 'Start' läuft, falls du Verbindungsparameter änderst.",
+        "data": {
+          "host": "IP-Adresse oder Hostname (wie in der App angezeigt)",
+          "port": "Port",
+          "passcode": "Passcode (optional)",
+          "use_ssl": "SSL verwenden"
+        }
+      }
+    },
+    "error": {
+      "cannot_connect": "Verbindung zum MoneyManager PC Manager Server fehlgeschlagen. Bitte stelle sicher, dass 'Start' in der App aktiv läuft.",
+      "invalid_auth": "Authentifizierung fehlgeschlagen: Passcode ist ungültig oder erforderlich.",
+      "unknown": "Unerwarteter Fehler aufgetreten."
+    }
+  },
+  "entity": {
+    "button": {
+      "update_data_now": {
+        "name": "Daten jetzt aktualisieren"
+      }
+    },
+    "sensor": {
+      "last_sync": {
+        "name": "Letzte Datensynchronisierung"
+      },
+      "total_assets": {
+        "name": "Gesamtvermögen"
+      },
+      "net_assets": {
+        "name": "Nettovermögen"
+      },
+      "total_debt": {
+        "name": "Gesamtschulden"
+      },
+      "monthly_income": {
+        "name": "Monatliche Einnahmen"
+      },
+      "monthly_expense": {
+        "name": "Monatliche Ausgaben"
+      },
+      "monthly_balance": {
+        "name": "Monatlicher Saldo"
+      },
+      "monthly_savings_rate": {
+        "name": "Monatliche Sparquote"
+      },
+      "prev_month_income": {
+        "name": "Einnahmen Vormonat"
+      },
+      "prev_month_expense": {
+        "name": "Ausgaben Vormonat"
+      },
+      "prev_month_balance": {
+        "name": "Saldo Vormonat"
+      },
+      "prev_month_savings_rate": {
+        "name": "Sparquote Vormonat"
+      },
+      "yearly_income": {
+        "name": "Jährliche Einnahmen"
+      },
+      "yearly_expense": {
+        "name": "Jährliche Ausgaben"
+      },
+      "yearly_balance": {
+        "name": "Jährlicher Saldo"
+      },
+      "yearly_savings_rate": {
+        "name": "Jährliche Sparquote"
+      },
+      "prev_year_income": {
+        "name": "Einnahmen Vorjahr"
+      },
+      "prev_year_expense": {
+        "name": "Ausgaben Vorjahr"
+      },
+      "prev_year_balance": {
+        "name": "Saldo Vorjahr"
+      },
+      "prev_year_savings_rate": {
+        "name": "Sparquote Vorjahr"
+      },
+      "cash_expense": {
+        "name": "Monatliche Barausgaben"
+      },
+      "card_expense": {
+        "name": "Monatliche Kartenausgaben"
+      },
+      "recent_transactions": {
+        "name": "Letzte Buchungen"
+      },
+      "account_book": {
+        "name": "Haushaltsbuch"
+      }
+    }
+  }
+}

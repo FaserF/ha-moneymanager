@@ -1,0 +1,124 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "MoneyManager PC Manager Connection",
+        "description": "NOTE: The 'PC Manager' feature requires the MoneyManager Pro / Paid version.\n\nYou MUST open the MoneyManager app on your mobile device, navigate to 'More' > 'PC Manager', and press 'Start'.\n\nData can only be retrieved while the PC Manager screen is active and running on your smartphone.",
+        "data": {
+          "host": "IP Address or Hostname (as shown in the app)",
+          "port": "Port",
+          "passcode": "Passcode (optional)",
+          "use_ssl": "Use SSL"
+        }
+      }
+    },
+    "error": {
+      "cannot_connect": "Failed to connect to MoneyManager PC Manager server. Ensure 'Start' is pressed in the mobile app.",
+      "invalid_auth": "Authentication failed: Passcode is incorrect or required.",
+      "unknown": "Unexpected error occurred."
+    },
+    "abort": {
+      "already_configured": "MoneyManager device is already configured."
+    }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "title": "MoneyManager Options",
+        "description": "NOTE: Ensure the MoneyManager app is open on your mobile device under 'More' > 'PC Manager' and 'Start' is pressed while modifying options or updating data.",
+        "data": {
+          "host": "IP Address or Hostname (as shown in the app)",
+          "port": "Port",
+          "passcode": "Passcode (optional)",
+          "use_ssl": "Use SSL"
+        }
+      }
+    },
+    "error": {
+      "cannot_connect": "Failed to connect to MoneyManager PC Manager server. Ensure 'Start' is pressed in the mobile app.",
+      "invalid_auth": "Authentication failed: Passcode is incorrect or required.",
+      "unknown": "Unexpected error occurred."
+    }
+  },
+  "entity": {
+    "button": {
+      "update_data_now": {
+        "name": "Update Data Now"
+      }
+    },
+    "sensor": {
+      "last_sync": {
+        "name": "Data Last Synced"
+      },
+      "total_assets": {
+        "name": "Total Gross Assets"
+      },
+      "net_assets": {
+        "name": "Net Assets"
+      },
+      "total_debt": {
+        "name": "Total Debt"
+      },
+      "monthly_income": {
+        "name": "Monthly Income"
+      },
+      "monthly_expense": {
+        "name": "Monthly Expense"
+      },
+      "monthly_balance": {
+        "name": "Monthly Balance"
+      },
+      "monthly_savings_rate": {
+        "name": "Monthly Savings Rate"
+      },
+      "prev_month_income": {
+        "name": "Previous Month Income"
+      },
+      "prev_month_expense": {
+        "name": "Previous Month Expense"
+      },
+      "prev_month_balance": {
+        "name": "Previous Month Balance"
+      },
+      "prev_month_savings_rate": {
+        "name": "Previous Month Savings Rate"
+      },
+      "yearly_income": {
+        "name": "Yearly Income"
+      },
+      "yearly_expense": {
+        "name": "Yearly Expense"
+      },
+      "yearly_balance": {
+        "name": "Yearly Balance"
+      },
+      "yearly_savings_rate": {
+        "name": "Yearly Savings Rate"
+      },
+      "prev_year_income": {
+        "name": "Previous Year Income"
+      },
+      "prev_year_expense": {
+        "name": "Previous Year Expense"
+      },
+      "prev_year_balance": {
+        "name": "Previous Year Balance"
+      },
+      "prev_year_savings_rate": {
+        "name": "Previous Year Savings Rate"
+      },
+      "cash_expense": {
+        "name": "Monthly Cash Expense"
+      },
+      "card_expense": {
+        "name": "Monthly Card Expense"
+      },
+      "recent_transactions": {
+        "name": "Recent Transactions"
+      },
+      "account_book": {
+        "name": "Account Book"
+      }
+    }
+  }
+}
