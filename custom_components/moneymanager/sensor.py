@@ -385,8 +385,12 @@ class MoneyManagerMonthlySavingsRateSensor(MoneyManagerBaseSensor):
         summary = data.get("summary_data", {}).get("summary", {})
         income = _safe_float(summary.get("income"))
         outcome = _safe_float(summary.get("outcome"))
-        if income and income > 0 and outcome is not None:
-            return round(((income - outcome) / income) * 100, 2)
+        if income is not None and outcome is not None:
+            if income > 0:
+                return round(((income - outcome) / income) * 100, 2)
+            if outcome == 0:
+                return 0.0
+            return -100.0
         return None
 
 
@@ -500,8 +504,12 @@ class MoneyManagerPrevMonthSavingsRateSensor(MoneyManagerBaseSensor):
         summary = data.get("summary_prev_month", {}).get("summary", {})
         income = _safe_float(summary.get("income"))
         outcome = _safe_float(summary.get("outcome"))
-        if income and income > 0 and outcome is not None:
-            return round(((income - outcome) / income) * 100, 2)
+        if income is not None and outcome is not None:
+            if income > 0:
+                return round(((income - outcome) / income) * 100, 2)
+            if outcome == 0:
+                return 0.0
+            return -100.0
         return None
 
 
@@ -626,8 +634,12 @@ class MoneyManagerYearlySavingsRateSensor(MoneyManagerBaseSensor):
         summary = data.get("summary_current_year", {}).get("summary", {})
         income = _safe_float(summary.get("income"))
         outcome = _safe_float(summary.get("outcome"))
-        if income and income > 0 and outcome is not None:
-            return round(((income - outcome) / income) * 100, 2)
+        if income is not None and outcome is not None:
+            if income > 0:
+                return round(((income - outcome) / income) * 100, 2)
+            if outcome == 0:
+                return 0.0
+            return -100.0
         return None
 
     @property
@@ -765,8 +777,12 @@ class MoneyManagerPrevYearSavingsRateSensor(MoneyManagerBaseSensor):
         summary = data.get("summary_prev_year", {}).get("summary", {})
         income = _safe_float(summary.get("income"))
         outcome = _safe_float(summary.get("outcome"))
-        if income and income > 0 and outcome is not None:
-            return round(((income - outcome) / income) * 100, 2)
+        if income is not None and outcome is not None:
+            if income > 0:
+                return round(((income - outcome) / income) * 100, 2)
+            if outcome == 0:
+                return 0.0
+            return -100.0
         return None
 
     @property

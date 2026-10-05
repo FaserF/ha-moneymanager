@@ -83,6 +83,22 @@ def test_sensors(mock_coordinator, mock_entry):
     )
     assert card_sensor.native_value == -4.0
 
+    # Savings rate with positive income: (651.99 - 285.26) / 651.99 * 100 = 56.25%
+    from custom_components.moneymanager.sensor import (
+        MoneyManagerMonthlySavingsRateSensor,
+    )
+
+    savings_sensor = MoneyManagerMonthlySavingsRateSensor(mock_coordinator, mock_entry)
+    assert savings_sensor.native_value == 56.25
+
+    # Savings rate when income is 0 and outcome > 0
+    mock_coordinator.data["summary_data"]["summary"]["income"] = "0.0"
+    assert savings_sensor.native_value == -100.0
+
+    # Savings rate when income is 0 and outcome is 0
+    mock_coordinator.data["summary_data"]["summary"]["outcome"] = "0.0"
+    assert savings_sensor.native_value == 0.0
+
 
 @pytest.mark.asyncio
 async def test_button(mock_coordinator, mock_entry):

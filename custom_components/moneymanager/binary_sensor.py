@@ -52,10 +52,19 @@ class MoneyManagerServerBinarySensor(
         proto = "https" if use_ssl else "http"
         config_url = f"{proto}://{host}:{port}/"
 
+        book_name = (
+            coordinator.data.get("init_data", {}).get("initData", {}).get("mbName")
+            if coordinator.data
+            else None
+        )
+        device_name = (
+            f"MoneyManager ({book_name})" if book_name else f"MoneyManager ({host})"
+        )
+
         self._attr_unique_id = f"{entry.entry_id}_server_status"
         self._attr_device_info = DeviceInfo(
             identifiers={(DOMAIN, entry.entry_id)},
-            name=f"MoneyManager ({host})",
+            name=device_name,
             manufacturer="Realbyte",
             model="Money Manager PC Server",
             sw_version="v3.3.0 (PC Manager)",
