@@ -69,9 +69,7 @@ async def async_get_config_entry_diagnostics(
         dev_reg = dr.async_get(hass)
         ent_reg = er.async_get(hass)
 
-        for dev in dev_reg.devices.values():
-            if entry.entry_id not in dev.config_entries:
-                continue
+        for dev in dr.async_entries_for_config_entry(dev_reg, entry.entry_id):
 
             reg_devices.append(
                 {
