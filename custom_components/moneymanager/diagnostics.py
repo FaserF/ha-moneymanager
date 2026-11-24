@@ -70,7 +70,6 @@ async def async_get_config_entry_diagnostics(
         ent_reg = er.async_get(hass)
 
         for dev in dr.async_entries_for_config_entry(dev_reg, entry.entry_id):
-
             reg_devices.append(
                 {
                     "id": str(dev.id),
